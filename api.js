@@ -2,11 +2,14 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 const dotenv = require('dotenv')
+const cors = require('cors')
 dotenv.config()
 const mongoose = require('mongoose')
 const {DB_USER,DB_PASSWORD} = process.env
 const PORT = process.env.PORT || 4000
 const {data} = require('./product-data')
+
+app.use(cors())
 // console.log(data)
 
 // const productData = [{name:'Mouse',price:2599},{name:'Iphone 15',price:112805}]
