@@ -19,28 +19,38 @@ const dbUrl = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@cluster0.cltye.mongodb.ne
 mongoose.connect(dbUrl).then(function(connection){
     console.log('connection successfull')
 })
-const productSchemaRules = {
-    name:{
+const batterySchemaRules = {
+    battery_id:{
         type:String,
         required:true
     },
-    price:{
-        type:Number,
-        required:true
-    },
-    imgUrl:{
+    current:{
         type:String,
         required:true
+    },
+    voltage:{
+        type:String,
+        required:true
+    },
+    temperature:{
+        type:String,
+        required:true
+    },
+    time:{
+        type:Date,
+        default:Date.now()
     }
 }
 
-const userSchema = new mongoose.Schema(productSchemaRules)
+const batterySchema = new mongoose.Schema(batterySchemaRules)
 //this user userSchema will have queries or syntax
-const productModel = mongoose.model('ProductsModel',userSchema)
+const batteryModel = mongoose.model('BatteryModel',batterySchema)
 
 app.post('/insert', async (req,res) => {
     // res.send('api successfully created')
-    const ins = await productModel.insertMany(data)
+    const {battery_id,current,voltage,temperature,time} = req.body
+
+    const ins = await batteryModel.insertMany(req.body)
     res.status(200).json({
         message:'Successfully Added the data'
     })
@@ -48,7 +58,7 @@ app.post('/insert', async (req,res) => {
 })
 
 app.get('/data',async (req,res) => {
-    const products = await productModel.find()
+    const products = await batteryModel.find()
     res.status(200).json({
         message:'Successfully data retrived',
         products,
