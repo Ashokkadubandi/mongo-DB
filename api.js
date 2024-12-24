@@ -51,6 +51,7 @@ app.post('/insert', async (req,res) => {
     const {battery_id,current,voltage,temperature,time} = req.body
 
     const ins = await batteryModel.insertMany(req.body)
+    // console.log(ins)
     res.status(200).json({
         message:'Successfully Added the data'
     })
